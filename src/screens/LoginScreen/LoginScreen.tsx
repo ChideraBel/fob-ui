@@ -1,12 +1,12 @@
-import { View, Image, StyleSheet, useWindowDimensions } from "react-native";
-import Logo from '../../assets/japaboat.png';
+import { View, Image, StyleSheet, useWindowDimensions, Text } from "react-native";
+import Logo from '../../../assets/japaboat.png';
 
 const LoginScreen = () => {
   const {height} = useWindowDimensions();
   return (
     <View>
       <Image source={Logo} style={[styles.logo,{height: height* 0.3}]}/>
-      hello
+      <Text>hello</Text>
     </View>
   );
 }
