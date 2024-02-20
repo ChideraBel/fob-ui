@@ -1,18 +1,16 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import LoginScreen from './src/screens/LoginScreen';
-
-import { ChakraProvider } from '@chakra-ui/react'
+import { GluestackUIProvider, Text, Box } from "@gluestack-ui/themed"
+import { config } from "@gluestack-ui/config"
 
 export default function App() {
   return (
-    <ChakraProvider>
+    <GluestackUIProvider config={config}>
       <SafeAreaView>
         <LoginScreen/>
       </SafeAreaView>
-    </ChakraProvider>
-
+    </GluestackUIProvider>
   );
 }
 
