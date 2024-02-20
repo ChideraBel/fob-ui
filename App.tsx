@@ -1,13 +1,18 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import LoginScreen from './src/screens/LoginScreen';
-import React from 'react';
+
+import { ChakraProvider } from '@chakra-ui/react'
 
 export default function App() {
   return (
-    <SafeAreaView>
-      <LoginScreen/>
-    </SafeAreaView>
+    <ChakraProvider>
+      <SafeAreaView>
+        <LoginScreen/>
+      </SafeAreaView>
+    </ChakraProvider>
+
   );
 }
 
