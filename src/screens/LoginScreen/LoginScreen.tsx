@@ -1,6 +1,7 @@
 import { View, Image, StyleSheet, useWindowDimensions, Text } from "react-native";
-import Logo from '../../../assets/japaboat.png';
-import CustomInput from "components/CustomInput";
+import Logo  from "assets/japaboat.png";
+import CustomInput from "../../components/CustomInput";
+import { Button, ButtonText } from "@gluestack-ui/themed";
 
 const LoginScreen = () => {
   const {height} = useWindowDimensions();
@@ -8,6 +9,9 @@ const LoginScreen = () => {
     <View style={styles.root}>
       <Image source={Logo} style={[styles.logo, {height: height * 0.2}]}/>
       <CustomInput/>
+      <Button>
+        <ButtonText>Button</ButtonText>
+      </Button>
     </View>
   );
 }
