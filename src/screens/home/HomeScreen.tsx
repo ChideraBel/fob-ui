@@ -1,7 +1,6 @@
 import { View, Text } from "react-native"
 
-
-const Navigation = () => {
+const Navigation:React.FC = () => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text> Home Screen</Text>

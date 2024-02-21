@@ -3,14 +3,14 @@ import Logo  from "assets/japaboat.png";
 import CustomInput from "../../components/CustomInput";
 import { Button, ButtonText } from "@gluestack-ui/themed";
 import { useState } from "react";
-import {useNavigation, NavigationProp} from '@react-navigation/native';
+import { NavigationProp} from '@react-navigation/native';
 import { RootStackParamList } from "../../navigation/index";
 
 type HomeScreenProps = {
   navigation: NavigationProp<RootStackParamList, 'Home'>;
 };
 
-const LoginScreen: React.FC<HomeScreenProps> = ({navigation}) => {
+const LoginScreen: React.FC<HomeScreenProps> = ({navigation}: HomeScreenProps) => {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
 
@@ -24,7 +24,7 @@ const LoginScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   }
   return (
     <View style={styles.root}>
-      <Image source={Logo} style={[styles.logo, {height: height * 0.2}]}/>
+      <Image source={Logo} style={[styles.logo, {height: height * 0.3}]}/>
       <Text style={styles.logoName} >JaPa</Text>
       <CustomInput 
         placeholder="Email Address"
@@ -55,9 +55,9 @@ const styles = StyleSheet.create({
     padding: 40,
   },
   logo:{
+    marginTop:40,
     width: '70%',
     maxWidth: 300,
-    marginBottom:40,
   },
   logoName: {
     fontSize: 60,

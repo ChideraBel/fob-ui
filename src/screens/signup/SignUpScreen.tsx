@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import CustomInput from "../../components/CustomInput";
 import { Button, ButtonText } from "@gluestack-ui/themed";
 
-const SignUpScreen = () => {
+const SignUpScreen:React.FC = () => {
   const [emailAddress, setEmailAddress] = useState(''); 
   const [firstName, setFirstName] = useState(''); 
   const [lastName, setLastName] = useState(''); 
@@ -20,7 +20,7 @@ const SignUpScreen = () => {
     console.warn('Privacy Policy');
   }
   return (
-    <View>
+    <View style={styles.root}>
       <Text style={styles.title}>Create Account</Text>
       <CustomInput 
         placeholder="First Name" 
@@ -54,7 +54,7 @@ const SignUpScreen = () => {
         <Text style={styles.link} onPress={onTermsOfUsePress}>Terms of Use</Text> and{' '} 
         <Text style={styles.link} onPress={onPrivacyPress}>Privacy Policy</Text>
       </Text>
-      <Button onPress={onSignUpPress} >
+      <Button style={styles.button} onPress={onSignUpPress} >
         <ButtonText>Register</ButtonText>
       </Button>
       <Text>Have an account? Sign In</Text>
@@ -66,10 +66,13 @@ const styles = StyleSheet.create({
   root:{
     alignItems: 'center',
     padding:20,
+    paddingTop:100,
   },
   title: {
     fontSize:24,
     fontWeight:'bold',
+    marginBottom: 30,
+    marginTop:50,
   },
   text: {
     color: 'gray',
@@ -77,6 +80,9 @@ const styles = StyleSheet.create({
   },
   link: {
     color:'#FDB075'
+  },
+  button: {
+    width:'100%'
   }
 })
 
