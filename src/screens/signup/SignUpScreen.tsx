@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     padding:20,
     paddingTop:100,
     paddingHorizontal: 20,
+    backgroundColor: 'white',
   },
   textContainer : {
     flexDirection: 'row',
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     color:'#FDB075'
   },
   button: {
-    width:'100%'
+    width:'95%'
   }
 })
 
