@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/login/LoginScreen';
 import SignUpScreen from '../screens/signup/SignUpScreen';
 import HomeScreen from '../screens/home/HomeScreen';
-import { StyleSheet } from 'react-native';
 
 type RootStackParamList = {
   Login: undefined;
@@ -24,12 +23,6 @@ const Navigation:React.FC = () => {
     </NavigationContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-
-  }
-})
 
 export default Navigation;
 export { RootStackParamList };
