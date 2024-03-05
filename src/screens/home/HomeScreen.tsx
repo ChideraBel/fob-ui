@@ -1,11 +1,52 @@
-import { View, Text } from "react-native"
+import { View, useWindowDimensions, StyleSheet } from "react-native"
+import { Pressable, ScrollView, Text, Progress, ProgressFilledTrack } from '@gluestack-ui/themed';
 
-const Navigation:React.FC = () => {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text> Home Screen</Text>
-    </View>
-  )
+const HomeScreen = () => {
+    //TODO: change section to updated design on figma
+    const items = ["Section 1", "Section 2", "Section 3", "Section 4", "Section 5", "Section 6"];
+
+    const { height } = useWindowDimensions();
+
+    return (
+        <View>
+            <ScrollView style={{ paddingTop: height*0.06}}>
+                <View style={styles.progress}>
+                    <Progress value={70} width={'90%'} height={15}>
+                        <ProgressFilledTrack style={{ backgroundColor: "#2DBFA9" }} />
+                    </Progress>
+                </View>
+                {items.map((item, index) => (
+                    <View key={index} style={[styles.sectionContainer, { alignItems: index % 2 == 0 ? 'flex-start' : 'flex-end' }]}>
+                        <Pressable style={styles.section}>
+                            <Text>{item}</Text>
+                        </Pressable>
+                    </View>
+                ))}
+            </ScrollView>
+        </View>
+    );
 }
 
-export default Navigation;
+const styles = StyleSheet.create({
+    progress: {
+        alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)'
+    },
+    sectionContainer: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 10,
+        height: 210,
+    },
+    section: {
+        height: 200,
+        width: 200,
+        borderRadius: 200,
+        backgroundColor: '#2DBFA9',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+})
+
+export default HomeScreen;
