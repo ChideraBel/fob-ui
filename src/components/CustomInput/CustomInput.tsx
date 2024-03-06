@@ -9,7 +9,7 @@ interface CustomInputProps {
   secureTextEntry?: boolean
 }
 
-//TODO: Make eye icon pressable to toggle password view
+//TODO: Make eye icon pressable to toggle password view and fix shifting words
 const CustomInput: React.FC<CustomInputProps> = ({ value, setValue, placeholder, secureTextEntry }) => {
   return (
     <View style={styles.container}>
@@ -21,7 +21,7 @@ const CustomInput: React.FC<CustomInputProps> = ({ value, setValue, placeholder,
           placeholder={placeholder}
           placeholderTextColor="#788BFF"
           secureTextEntry={secureTextEntry} />
-        <View style={{display: 'flex', justifyContent: "center"}}>
+        <View style={{display: 'flex', justifyContent: "center", width: 'auto'}}>
           {secureTextEntry && <EyeOffIcon color="#788BFF" height={15}/>}
         </View>
       </View>

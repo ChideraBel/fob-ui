@@ -22,7 +22,16 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }: LoginScreenProp
 
   const { height } = useWindowDimensions();
 
+  //TODO: add modals for error messages and clean up
   useEffect(() => {
+    if(!response) return;
+
+    console.log(response);
+    if(response.responseType == "SUCCESS"){
+      navigation.navigate('Home');
+    }else{
+      console.log(response.message);
+    }
   }, [response])
 
   useEffect(() => {
@@ -32,9 +41,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }: LoginScreenProp
 
   const onSignInPress = () => {
     const trigger = new Date();
-    setTriggerTime(trigger.toDateString());
-
-    navigation.navigate('Home');
+    setTriggerTime(trigger.toISOString());
   }
 
   const onSignUpPress = () => {
@@ -65,7 +72,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }: LoginScreenProp
             setValue={setPassword}
             secureTextEntry
           />
-          <Button borderRadius={10} style={styles.loginButton} onPress={onSignInPress}>
+          <Button style={styles.loginButton} onPress={onSignInPress}>
             <ButtonText>{isLoading ? "Loging in..." : "Log In"}</ButtonText>
           </Button>
           <Pressable style={{paddingTop: 10}}><Text style={styles.link}>Forgot password?</Text></Pressable>
@@ -100,6 +107,7 @@ const styles = StyleSheet.create({
   loginButton: {
     width: 'auto',
     marginTop: 10,
+    borderRadius: 10,
     backgroundColor: '#788BFF',
   },
   link: {
