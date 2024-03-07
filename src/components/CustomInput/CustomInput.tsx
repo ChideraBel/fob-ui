@@ -1,31 +1,35 @@
 import { Divider, EyeOffIcon } from "@gluestack-ui/themed";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
 interface CustomInputProps {
   value: string;
   setValue: (text: string) => any;
   placeholder?: string;
-  secureTextEntry?: boolean
+  secureTextEntry?: boolean,
+  centerText?: boolean
 }
 
 //TODO: Make eye icon pressable to toggle password view and fix shifting words
-const CustomInput: React.FC<CustomInputProps> = ({ value, setValue, placeholder, secureTextEntry }) => {
+const CustomInput: React.FC<CustomInputProps> = ({ value, setValue, placeholder, secureTextEntry, centerText }) => {
+  const [isFocus, setFocus] = useState(false);
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between'}}>
+      <View style={styles.textInputContainer}>
         <TextInput
           value={value}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
           onChangeText={setValue}
-          style={styles.input}
+          style={[styles.input, {width: secureTextEntry? '90%': '100%', textAlign: centerText? 'center':'auto', color: "#788BFF"}]}
           placeholder={placeholder}
-          placeholderTextColor="#788BFF"
+          placeholderTextColor={isFocus? '#788BFF' : "#858585"}
           secureTextEntry={secureTextEntry} />
-        <View style={{display: 'flex', justifyContent: "center", width: 'auto'}}>
-          {secureTextEntry && <EyeOffIcon color="#788BFF" height={15}/>}
+        <View style={styles.iconContainer}>
+          {secureTextEntry && <EyeOffIcon color= {isFocus ? '#788BFF' : '#adadad'} height={12}/>}
         </View>
       </View>
-      <Divider style={{ height: 1. }} />
+      <Divider style={{ height: 1, backgroundColor: isFocus ? '#788BFF' : '#e0e0e0'}} />
     </View>
   )
 }
@@ -40,8 +44,18 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   input: {
-    height: 40,
+    height: 30,
   },
+  iconContainer: {
+    display: 'flex', 
+    justifyContent: 'center', 
+    width: 15
+  },
+  textInputContainer: { 
+    flexDirection: 'row', 
+    display: 'flex', 
+    justifyContent: 'space-between'
+  }
 })
 
 export default CustomInput

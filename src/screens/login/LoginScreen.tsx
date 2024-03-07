@@ -1,37 +1,50 @@
-import { View, Image, StyleSheet, useWindowDimensions, KeyboardAvoidingView, Text, Platform, Pressable } from "react-native";
-import Logo from "assets/japaboat.png";
+import { View, StyleSheet, useWindowDimensions, KeyboardAvoidingView, Text, Platform, Pressable, Animated } from "react-native";
 import CustomInput from "../../components/CustomInput";
-import { Button, ButtonText, Divider, ScrollView } from "@gluestack-ui/themed";
-import { useEffect, useState } from "react";
-import { Link, NavigationProp } from '@react-navigation/native';
-import { RootStackParamList } from "../../navigation/index";
+import { Button, ButtonText, Divider, Modal, Spinner } from "@gluestack-ui/themed";
+import React, { useEffect, useRef, useState } from "react";
 import { userLogin } from "../../services/auth/AuthenticationService";
 import IconButton from "../../components/IconButton";
 import Google from "assets/google-icon.png";
 import Outlook from "assets/outlook-icon.png";
+import { saveData } from "../../services/utils/Storage";
 
 type LoginScreenProps = {
-  navigation: NavigationProp<RootStackParamList>;
+  setAuthPage: any;
+  setSignedIn: any;
 };
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }: LoginScreenProps) => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ setAuthPage, setSignedIn }: LoginScreenProps) => {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [triggerTime, setTriggerTime] = useState('');
-  const [response, isLoading, error] = userLogin(triggerTime, emailAddress, password);;
+  const [response, isLoading, error] = userLogin(triggerTime, emailAddress, password);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const { height } = useWindowDimensions();
 
+  useEffect(() => {
+    Animated.timing(
+      fadeAnim,
+      {
+        toValue: 1,
+        duration: 450, 
+        useNativeDriver: true,
+      }
+    ).start();
+  }, []);
+
   //TODO: add modals for error messages and clean up
   useEffect(() => {
-    if(!response) return;
-
+    if (!response) return;
     console.log(response);
-    if(response.responseType == "SUCCESS"){
-      navigation.navigate('Home');
-    }else{
+
+    if (response.responseType == "SUCCESS") {
+      saveData("email", emailAddress);
+      setSignedIn(true);
+    } else {
       console.log(response.message);
     }
+
   }, [response])
 
   useEffect(() => {
@@ -45,7 +58,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }: LoginScreenProp
   }
 
   const onSignUpPress = () => {
-    navigation.navigate('SignUp');
+    setAuthPage("Signup")
   }
 
   const onSSOPressed = (type: string) => {
@@ -55,11 +68,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }: LoginScreenProp
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <ScrollView backgroundColor='white' height={'100%'}>
-        <View style={{ paddingTop: height*0.13, alignItems: 'center'}}>
-          <Image source={Logo} style={[styles.logo, { height: height * 0.3 }]} />
-        </View>
-        <View style={styles.root}>
+      <Animated.ScrollView style= {{backgroundColor: 'white', height:'100%', opacity: fadeAnim}}>
+        <View style={[styles.root, {paddingTop: height * 0.42}]}>
           <CustomInput
             placeholder="Email Address"
             value={emailAddress}
@@ -72,23 +82,25 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }: LoginScreenProp
             setValue={setPassword}
             secureTextEntry
           />
-          <Button style={styles.loginButton} onPress={onSignInPress}>
-            <ButtonText>{isLoading ? "Loging in..." : "Log In"}</ButtonText>
-          </Button>
-          <Pressable style={{paddingTop: 10}}><Text style={styles.link}>Forgot password?</Text></Pressable>
-          <View style={{ flexDirection: "row", paddingVertical: 14 }}>
-            <Text style={{fontSize: 15, paddingRight: 5}}>New user?</Text>
+          {!isLoading && <Button style={styles.loginButton} onPress={onSignInPress}>
+            <ButtonText>Log in</ButtonText>
+          </Button>}
+          {isLoading && <Spinner color={'#788BFF'}/>}
+          <Pressable style={{ paddingTop: 10 }}><Text style={styles.link}>Forgot password?</Text></Pressable>
+          <View style={styles.signupContainer}>
+            <Text style={styles.newUser}>New user?</Text>
             <Pressable onPress={onSignUpPress}><Text style={styles.link}>Register here!</Text></Pressable>
           </View>
         </View>
         <View style={styles.footer}>
-          <Divider style={{height: 1.2, backgroundColor: '#788BFF'}}></Divider>
-          <View style={{flexDirection: 'row', paddingTop: 14}}>
-            <IconButton onPress={() => onSSOPressed("Google")} icon={Google}/>
-            <IconButton onPress={() => onSSOPressed("Outlook")} icon={Outlook}/>
+          <Divider style={styles.divider}></Divider>
+          <View style={styles.iconContainer}>
+            <IconButton onPress={() => onSSOPressed("Google")} icon={Google} />
+            <IconButton onPress={() => onSSOPressed("Outlook")} icon={Outlook} />
           </View>
         </View>
-      </ScrollView>
+        {error && <Modal>{error.message}</Modal>}
+      </Animated.ScrollView>
     </KeyboardAvoidingView>
   );
 }
@@ -106,7 +118,6 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     width: 'auto',
-    marginTop: 10,
     borderRadius: 10,
     backgroundColor: '#788BFF',
   },
@@ -117,6 +128,22 @@ const styles = StyleSheet.create({
   footer: {
     alignItems: 'center',
     paddingHorizontal: 30
+  },
+  newUser: { 
+    fontSize: 15, 
+    paddingRight: 5 
+  },
+  signupContainer: { 
+    flexDirection: "row", 
+    paddingVertical: 14 
+  },
+  divider: { 
+    height: 1.2, 
+    backgroundColor: '#788BFF' 
+  },
+  iconContainer: { 
+    flexDirection: 'row',
+     paddingTop: 14 
   }
 })
 
