@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 30,
     marginTop: 50,
+    color: "#788BFF"
   },
   text: {
     color: 'gray',
@@ -175,6 +176,7 @@ const styles = StyleSheet.create({
   signupButton: {
     width: 'auto',
     marginTop: 10,
+    borderRadius: 10,
     backgroundColor: '#788BFF',
   },
 })
