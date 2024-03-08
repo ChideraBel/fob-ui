@@ -1,26 +1,6 @@
 import { post } from 'aws-amplify/api';
 import { get } from 'aws-amplify/api';
-import { API_BASE_URL, API_NAME } from "../Constants";
-import { Amplify } from 'aws-amplify';
-import amplifyconfig from '../amplifyconfiguration.json';
-
-Amplify.configure(amplifyconfig);
-
-const existingConfig = Amplify.getConfig();
-
-Amplify.configure({
-  ...existingConfig,
-  API: {
-    ...existingConfig.API,
-    REST: {
-      ...existingConfig.API?.REST,
-      "FOB API": {
-        endpoint: API_BASE_URL,
-        region: 'us-east-2'
-      }
-    }
-  }
-});
+import { API_NAME } from "../Constants";
 
 export async function getFunc(endpoint: string, parameters: any) {
   try {
