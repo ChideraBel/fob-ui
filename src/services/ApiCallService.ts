@@ -2,7 +2,7 @@ import { post } from 'aws-amplify/api';
 import { get } from 'aws-amplify/api';
 import { API_NAME } from "../Constants";
 
-export async function getFunc(endpoint: string, parameters: any) {
+export async function getFunc(endpoint: string, parameters?: any) {
   try {
     const restOperation = get({
       apiName: API_NAME,
@@ -11,7 +11,8 @@ export async function getFunc(endpoint: string, parameters: any) {
         queryParams: parameters
       }
     });
-    const response = await restOperation.response;
+    const { body } = await restOperation.response;
+    const response = await body.json();
 
     console.log('GET call succeeded: ', response);
     return response;

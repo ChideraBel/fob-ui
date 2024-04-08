@@ -16,14 +16,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ setAuthPage, setSignedIn }:
   const [password, setPassword] = useState('');
   const [repPassword, setRePassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [nationality, setNationality] = useState('');
-  const [employment, setEmployment] = useState('');
-  const [address, setAddress] = useState('');
   const [industry, setIndustry] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [zipcode, setZipcode] = useState('');
   const [triggerTime, setTriggerTime] = useState('');
   const [signupRequest, setSignUpRequest] = useState<SignupRequest>(null as unknown as SignupRequest);
   const [response, isLoading, error] = userSignUp(triggerTime, signupRequest);
@@ -60,7 +53,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ setAuthPage, setSignedIn }:
   }, []);
 
   const onSignUpPress = () => {
-    if(fullName.length == 0) {
+    if (fullName.length == 0) {
       console.warn("Please enter your full name.")
       return;
     }
@@ -73,18 +66,14 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ setAuthPage, setSignedIn }:
       return;
     }
     if (emailAddress.length == 0 || !emailAddress.toLowerCase().endsWith('edu')) {
-      console.warn("Please enter valid insitution email.")
+      console.warn("Please enter valid school email.")
       return;
     }
     setSignUpRequest({
       email: emailAddress,
       password: password,
       fullName: fullName,
-      address: `${address}, ${city}, ${state}, ${zipcode}`,
-      employment: employment,
       industry: industry,
-      nationality: nationality,
-      phoneNumber: phoneNumber,
     })
     const newTime = new Date();
     setTriggerTime(newTime.toISOString());
@@ -106,7 +95,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ setAuthPage, setSignedIn }:
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? 'padding' : 'height'}>
       <Animated.ScrollView style={{ backgroundColor: 'white', height: '100%', opacity: fadeAnim }}>
-        <View style={[styles.root, { padding: height * 0.09 }]}>
+        <View style={[styles.root, { paddingTop: height * 0.3 }]}>
           <Text style={styles.title}>Create Account</Text>
           <View style={{ width: '95%' }}>
             <CustomInput
@@ -125,9 +114,9 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ setAuthPage, setSignedIn }:
             </View>
             <View style={{ width: '30%' }}>
               <CustomInput
-                placeholder="Phone"
-                value={phoneNumber}
-                setValue={setPhoneNumber}
+                placeholder="Industry"
+                value={industry}
+                setValue={setIndustry}
               />
             </View>
           </View>
@@ -149,57 +138,6 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ setAuthPage, setSignedIn }:
               />
             </View>
           </View>
-          <View style={{ width: '95%' }}>
-            <CustomInput
-              placeholder="Address"
-              value={address}
-              setValue={setAddress}
-            />
-          </View>
-          <View style={styles.textContainer}>
-            <View style={{ width: '52%' }}>
-              <CustomInput
-                placeholder="City"
-                value={city}
-                setValue={setCity}
-              />
-            </View>
-
-            <View style={{ width: '15%' }}>
-              <CustomInput
-                placeholder="State"
-                value={state}
-                setValue={setState}
-                centerText={true}
-              />
-            </View>
-
-            <View style={{ width: '20%' }}>
-              <CustomInput
-                placeholder="Zip"
-                value={zipcode}
-                setValue={setZipcode}
-                centerText={true}
-              />
-            </View>
-          </View>
-          <View style={{ width: '95%' }}>
-            <CustomInput
-              placeholder="Nationality"
-              value={nationality}
-              setValue={setNationality}
-            />
-            <CustomInput
-              placeholder="Employment"
-              value={employment}
-              setValue={setEmployment}
-            />
-            <CustomInput
-              placeholder="Industry"
-              value={industry}
-              setValue={setIndustry}
-            />
-          </View>
           <Text style={styles.text}>
             By registering, you confirm that you accept our{' '}
             <Text style={styles.link} onPress={onTermsOfUsePress}>Terms of Use</Text> and{' '}
@@ -207,8 +145,8 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ setAuthPage, setSignedIn }:
           </Text>
           {!isLoading && <Button style={styles.signupButton} onPress={onSignUpPress} >
             <ButtonText>Register</ButtonText>
-          </Button> }
-          {isLoading && <Spinner color={'#788BFF'}/>}
+          </Button>}
+          {isLoading && <Spinner color={'#788BFF'} />}
           <View style={styles.haveAccountContainer}>
             <Text style={styles.haveAccountText}>Have an account?</Text>
             <Pressable onPress={onSignInPress}><Text style={styles.link}>Sign in</Text></Pressable>
@@ -235,7 +173,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 30,
+    marginBottom: 25,
     marginTop: 50,
     color: "#5465ff"
   },
@@ -253,13 +191,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#788BFF',
   },
-  haveAccountContainer: { 
+  haveAccountContainer: {
     flexDirection: "row",
-    paddingVertical: 14 
+    paddingVertical: 14
   },
-  haveAccountText: { 
-    fontSize: 14, 
-    paddingRight: 5 
+  haveAccountText: {
+    fontSize: 14,
+    paddingRight: 5
   }
 })
 
