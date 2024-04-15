@@ -2,7 +2,6 @@ import { ActionBarItem } from "../../models/ActionBarItem";
 import { Pressable, StyleSheet, View } from "react-native";
 import React from "react";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { HStack } from "@gluestack-ui/themed";
 
 interface AppBarProps {
     actionBarItems: ActionBarItem[]
@@ -26,6 +25,7 @@ const AppBar: React.FC<AppBarProps> = ({ menuAction, actionBarItems }) => {
 
 const styles = StyleSheet.create({
     appBar: {
+        marginTop: 12,
         flexDirection: 'row',
         height: 35,
         paddingHorizontal: 20,
