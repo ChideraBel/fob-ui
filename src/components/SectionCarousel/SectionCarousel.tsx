@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Section } from '../../models/Section';
 import { StyleSheet, View, Text, ImageBackground } from 'react-native';
 import Carousel from 'pinar';
 import Icon from 'react-native-vector-icons/AntDesign';
+import SectionPopover from "../../components/SectionPopover/SectionPopover";
 
-interface SectionCarouselPrrops {
-    sections: Section[]
+interface SectionCarouselProps {
+    sections: Section[],
+    sectionClicked?: any,
 }
 
-const SectionCarousel: React.FC<SectionCarouselPrrops> = ({ sections }) => {
+const SectionCarousel: React.FC<SectionCarouselProps> = ({ sections, sectionClicked }) => {
     const images = [require('../../../assets/visa_vitality_img.png'), require('../../../assets/campus_careers_img.png'), require('../../../assets/ssn_simplified_img.png'), 
                     require('../../../assets/b_for_b_img.png'), require('../../../assets/future_focused_img.png'), require('../../../assets/cpt_clarity_img.png'), 
                     require('../../../assets/opt_odyssey_img.png'), require('../../../assets/h1b_horizons_img.png'), require('../../../assets/gcg_img.png')];
@@ -20,7 +22,7 @@ const SectionCarousel: React.FC<SectionCarouselPrrops> = ({ sections }) => {
                     <View key={index} style={{ width: '96%', alignSelf: 'center'}}>
                         <ImageBackground source={images[index]} style={styles.section}>
                             <View style={styles.topContent}>
-                                <Icon name='arrowsalt' size={27} color={'#ededed'}></Icon>
+                                <Icon name='arrowsalt' size={27} color={'#ededed'} onPress={() => sectionClicked(section)}></Icon>
                             </View>
                             <View style={styles.bottomContent}>
                                 <Text style={styles.sectionTitle}>{section.name}</Text>
