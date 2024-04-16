@@ -1,15 +1,19 @@
 import { View, useWindowDimensions, StyleSheet, Animated } from "react-native"
 import { Progress, ProgressFilledTrack, Divider, Spinner } from '@gluestack-ui/themed';
 import { deleteData } from "../../services/utils/Storage";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Section } from '../../models/Section';
 import AppBar from "../../components/AppBar";
 import RemindersCard from "../../components/RemindersCard";
 import SectionCarousel from "../../components/SectionCarousel";
 import { getAllSections } from "../../services/home/SectionsService";
+import SectionPopover from "../../components/SectionPopover";
 
 const HomeScreen = () => {
-    //TODO: change section to updated design on figma
+    
     const [triggerTime, setTriggerTime] = useState("");
+    const [showSection, setShowSection] = useState(false);
+    const [section, setSection] = useState(null as unknown as Section)
     const [items, isLoading, error] = getAllSections(triggerTime);
     const { height } = useWindowDimensions();
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -28,6 +32,12 @@ const HomeScreen = () => {
             }
         ).start();
     }, []);
+
+    const clickSection = (section: Section) => {
+        setShowSection(true)
+        setSection(section)
+        console.log(section)
+    }
 
     const faqClicked = () => {
 
@@ -49,8 +59,9 @@ const HomeScreen = () => {
                 <RemindersCard reminderItems={[{ name: "Test 1" }, { name: "Test 2" }, { name: "Test 3" }, { name: "Test 4" }]} />
                 <View style={{ alignItems: 'center', paddingVertical: 20 }}><Divider style={styles.divider}></Divider></View>
                 {isLoading && <Spinner/>}
-                {items && !isLoading && <SectionCarousel sections={items} />}
+                {items && !isLoading && <SectionCarousel sections={items} sectionClicked={clickSection}/>}
             </Animated.ScrollView>
+            {section && <SectionPopover isOpen={showSection} close={() => setShowSection(false)} section={section} maxHeight={height*0.85} />}
         </View>
     );
 }
